@@ -1,0 +1,36 @@
+# 주최 측 제공 데이터와 그 가공본 — 재배포 금지, 절대 커밋하지 않음
+private_data/
+Raw Data/
+DB/
+*신한카드*.txt
+flow_*_pop_*.csv
+flow_*_monthly.csv
+CARD_SPEND_*.csv
+FLOW_POP_*.csv
+
+# 용량이 큰 공공데이터 (출처목록.md에 다운로드 링크)
+2. 경계/
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+
+# 결과보고서 (저장소에 넣지 않음, 대회에는 PDF로 따로 제출)
+보고서/
+*.docx
+*결과보고서*.pdf
+
+# 제출용 압축 파일
+*.zip
+
+# Google Drive / OS / 에디터
+desktop.ini
+*.gsheet
+.DS_Store
+Thumbs.db
+.ipynb_checkpoints/
+__pycache__/
+.venv/
+.vscode/
+.idea/
