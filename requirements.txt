@@ -7,7 +7,7 @@ shapely==2.0.7
 pyogrio==0.11.1
 pyproj==3.6.1
 
-# EDA·모델링 (eda/, modeling/)
+# EDA·모델링 (notebooks/, modeling/)
 matplotlib==3.7.2
 scikit-learn==1.3.0
 scipy==1.11.1
