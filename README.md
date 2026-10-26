@@ -4,9 +4,7 @@
 
 ## 1. 프로젝트 소개
 
-2024년 국내 고독사 3,924명 가운데 50\~60대가 63%, 남성이 84%를 차지합니다(보건복지부). 그러나 65세 미만 중장년은 노인·청년과 달리 전담 제도가 없고, 사회적 고립은 개인 조사로만 파악해 왔기 때문에 지자체가 "어느 동부터 살펴야 하는가"를 상시로 알기 어렵습니다.
-
-**노크(KNOCK)** 는 주민등록 인구·세대 통계와 SKT 유동인구로 행정동마다 **중장년 사회적 고립 위험의 유형과 수준**을 산출하고, 그 결과를 지자체 복지 담당자가 묻고 바로 활용하는 AI 에이전트로 연결합니다. 개인을 찾아내는 도구가 아니라, 한정된 발굴·돌봄 자원을 어느 동에 먼저 배치할지 정하는 **우선순위 도구**입니다.
+**노크(KNOCK)** 는 주민등록 인구, 유동인구, 카드 소비 데이터를 활용해 강남구와 춘천시의 중장년 사회적 고립 위험을 지역별로 살펴보는 AI 에이전트입니다. 행정동별 위험 특성을 분석해 지역을 유형화하고, 지자체가 예방 활동에 활용할 수 있도록 주요 위험 요인과 대응 방안을 제시합니다.
 
 - **대상:** 서울 강남구 22개 동 · 강원 춘천시 25개 동 (2025년 7\~12월), 50\~60대 남성 1인 가구 우선
 - **산출물:** 위험 유형 5종(HH1 / HH2 / HL / LH / LL) · 위험도 5단계 · 유형별 원인 분석(SHAP)
@@ -14,7 +12,9 @@
 | 저장소 | 내용 |
 |---|---|
 | **Knock-Model** | 데이터 전처리 · EDA · 군집 모델링 → 결과 파일(`artifacts/`) |
-| [**knock**](https://github.com/OvO-Hi/knock) | AI 에이전트 — 이 저장소의 `artifacts/` 결과를 `data/`에 넣어 사용 |
+| [**knock**](https://github.com/OvO-Hi/knock) | 결과 파일(`artifacts/`) → AI 에이전트 · 우선 동 지도 · 담당자용 브리프 |
+
+<br>
 
 ## 2. 분석 방법
 
@@ -54,6 +54,8 @@
 
 튜닝의 64개 조합은 같은 조건(K-means 초기값 30회, 부트스트랩 100회)으로 학습했습니다. 기본 모델의 K 선택(실루엣 0.471)은 초기값 50회 기준입니다.
 
+<br>
+
 ## 3. 주요 결과
 
 ### 3.1 최종 모델 군집
@@ -91,6 +93,8 @@
 | `tuning/tuning_results.csv` | 64개 조합 튜닝 결과 (최종 모델 선택의 입력) |
 | `figures/*.png` | K 선택, 기본·최종 모델, 프로파일, 위험도, SHAP 그래프 |
 
+<br>
+
 ## 4. 폴더 구성
 
 ```
@@ -112,6 +116,8 @@ Knock-Model/
 | `notebooks/` | `EDA.ipynb` — 데이터 품질, 인구·세대 구조, 카드 소비, 유동인구, 파생변수 EDA / `Clustering.ipynb` — 모델링 과정과 해석 |
 | `artifacts/` | 에이전트 입력 데이터 — 군집 결과, 검증·SHAP·민감도 표, 변수 설명서, 그래프, 튜닝 결과 |
 | `public_data/` | 공공데이터 원본과 출처 목록 (`출처목록.md`), 행정구역 경계 `2. 경계/` |
+
+<br>
 
 ## 5. 설치 및 실행
 
@@ -168,20 +174,7 @@ python run_all.py
 - 그래프 한글 표시에 나눔고딕(NanumGothic) 글꼴이 필요합니다.
 - 스크립트는 하나씩 따로 실행할 수도 있습니다 (예: `python modeling/cluster.py --dry-run`).
 
-### 5.4 단계별 입력과 결과
-
-| 스크립트 | 입력 | 결과 |
-|---|---|---|
-| `preprocessing/prep_admin_population.py` | `public_data/` | `database/` `SGG_MST`, `EMD_MST`, `POP_SEX_AGE`, `HH_SIZE` |
-| `preprocessing/prep_card.py` | `private_data/…신한카드…/` | `database/` `CARD_SPEND_TIME`, `CARD_SPEND_RESID` |
-| `preprocessing/prep_flow.py` | `private_data/…sk통신인구…/`, `2. 경계/` | `database/` `FLOW_POP_*` 3개 + 월별 집계 `flow_*_monthly` 3개 |
-| `preprocessing/prep_features.py` | `database/` 인구·세대·유동인구 테이블 | `database/features.csv` (47개 동 × 파생변수 5개) |
-| `modeling/tune.py` | `features.csv` | `artifacts/tuning/tuning_results.csv`, 그래프 |
-| `modeling/cluster.py` | `features.csv`, `tuning_results.csv` | `artifacts/cluster_profile.csv`, 그래프 |
-| `modeling/validate.py` | 〃 | `artifacts/validation_summary.csv`, `artifacts/sensitivity_final.csv` |
-| `modeling/xai_explain.py` | 〃 | `artifacts/shap_importance.csv`, `artifacts/dong_cluster.csv`, 그래프 |
-
-### 5.5 노트북
+### 5.4 노트북
 
 `notebooks/`의 두 노트북은 분석 과정과 해석을 담은 기록입니다.
 
