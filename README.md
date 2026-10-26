@@ -202,5 +202,5 @@ python run_all.py
 
 `notebooks/`의 두 노트북은 분석 과정과 해석을 담은 기록입니다.
 
-- `EDA.ipynb`는 카드·유동인구 테이블(`CARD_SPEND_*`, `flow_*_monthly`)을 읽으므로 저장소에 없는 원본 데이터를 받아 전처리를 마친 뒤에 실행할 수 있습니다.
+- `EDA.ipynb`는 카드·유동인구 테이블(`CARD_SPEND_*`, `flow_*_monthly`)을 읽으므로 저장소에 없는 원본 데이터를 받아(5.2 참고) 전처리를 마친 뒤에 실행할 수 있습니다.
 - Jupyter 환경(JupyterLab, VS Code 등)에서 커널을 `requirements.txt`를 설치한 환경으로 지정한 뒤 전체 셀을 실행합니다.
